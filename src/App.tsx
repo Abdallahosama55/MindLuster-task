@@ -6,7 +6,7 @@ import NotFound from "./pages/Notfound"
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="ejada-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="MindLuster-ui-theme">
       <Routes>
         <Route path="/" element={<MainLayout />}>
     

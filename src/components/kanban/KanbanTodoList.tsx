@@ -1,5 +1,5 @@
 // KanbanTodoList.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import ItemsColumn from "./itemsColumn";
 import StrictModeDroppable from "./droppable";
@@ -30,8 +30,9 @@ const KanbanTodoList: React.FC = () => {
   const { data: initialData, isLoading, isError } = useGetTodosQuery(undefined);
   const persistedTasks = useTasks();
   const [columnData, setColumnData] = useState<ColumnData>({});
+  const [searchQuery, setSearchQuery] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (initialData) {
       // Convert persisted tasks to the required format
       const persistedTaskItems = persistedTasks.map((task) => ({
@@ -42,9 +43,8 @@ const KanbanTodoList: React.FC = () => {
         priority: task.priority,
         completed: task?.completed,
       }));
-      console.log("persistedTaskItems", persistedTaskItems);
-      console.log("initialData", initialData);
-      // Create a new object with merged data
+
+      // Merge API data + persisted tasks
       const mergedData = Object.keys(initialData).reduce((acc, columnKey) => {
         const column = initialData[columnKey];
         return {
@@ -65,7 +65,6 @@ const KanbanTodoList: React.FC = () => {
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
-    // Dropped outside the list or no data loaded
     if (!destination || !columnData) {
       return;
     }
@@ -73,7 +72,6 @@ const KanbanTodoList: React.FC = () => {
     const sInd = source.droppableId;
     const dInd = destination.droppableId;
 
-    // Get item details
     const item = columnData[sInd].items[source.index];
     const itemTitle = item.title;
     const itemId = item.id;
@@ -142,6 +140,7 @@ const KanbanTodoList: React.FC = () => {
   if (isError) return <div>Error loading data</div>;
   if (!columnData || Object.keys(columnData).length === 0)
     return <div>No data available</div>;
+
   return (
     <div className="">
       <Toaster
@@ -153,39 +152,58 @@ const KanbanTodoList: React.FC = () => {
         position="bottom-left"
       />
       <TodoDialog />
+
+      {/* 🔍 Search bar */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search by title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border px-3 py-2 rounded-md w-full"
+        />
+      </div>
+
       <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-x-4 justify-between">
         <DragDropContext onDragEnd={onDragEnd}>
-          {Object.entries(columnData)?.map(([id, column]) => (
-            <StrictModeDroppable droppableId={id} key={id}>
-              {(provided: {
-                droppableProps: JSX.IntrinsicAttributes &
-                  React.ClassAttributes<HTMLDivElement> &
-                  React.HTMLAttributes<HTMLDivElement>;
-                innerRef: React.LegacyRef<HTMLDivElement> | undefined;
-                placeholder:
-                  | string
-                  | number
-                  | boolean
-                  | React.ReactElement<
-                      any,
-                      string | React.JSXElementConstructor<any>
-                    >
-                  | Iterable<React.ReactNode>
-                  | React.ReactPortal
-                  | null
-                  | undefined;
-              }) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  <ItemsColumn
-                    columnTitle={column.title}
-                    columnId={column.id}
-                    items={column.items}
-                  />
-                  {provided.placeholder}
-                </div>
-              )}
-            </StrictModeDroppable>
-          ))}
+          {Object.entries(columnData)?.map(([id, column]) => {
+            // filter items by searchQuery
+            const filteredItems = column.items.filter((item) =>
+              item.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+
+            return (
+              <StrictModeDroppable droppableId={id} key={id}>
+                {(provided: {
+                  droppableProps: JSX.IntrinsicAttributes &
+                    React.ClassAttributes<HTMLDivElement> &
+                    React.HTMLAttributes<HTMLDivElement>;
+                  innerRef: React.LegacyRef<HTMLDivElement> | undefined;
+                  placeholder:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | Iterable<React.ReactNode>
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                }) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    <ItemsColumn
+                      columnTitle={column.title}
+                      columnId={column.id}
+                      items={filteredItems} // ✅ use filtered items
+                    />
+                    {provided.placeholder}
+                  </div>
+                )}
+              </StrictModeDroppable>
+            );
+          })}
         </DragDropContext>
       </div>
     </div>

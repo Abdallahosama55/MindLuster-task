@@ -44,7 +44,7 @@ export function AppSidebar() {
             <ListTodo className="h-4 w-4" />
           </div>
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-semibold">Ejada</span>
+            <span className="text-sm font-semibold">MindLuster</span>
             <span className="text-xs text-muted-foreground">Task Manager</span>
           </div>
         </div>

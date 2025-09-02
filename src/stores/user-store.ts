@@ -18,7 +18,7 @@ export const useUserStore = create<UserState>((set) => ({
   user: {
     id: "1",
     name: "Sarah Johnson",
-    email: "sarah@ejada.com",
+    email: "sarah@MindLuster.com",
     role: "Project Manager",
     avatar: "/placeholder.svg?height=40&width=40",
     initials: "SJ",

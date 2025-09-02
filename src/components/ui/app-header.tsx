@@ -11,7 +11,7 @@ export function AppHeader() {
       <SidebarTrigger />
       <Separator orientation="vertical" className="h-6" />
       <div className="flex flex-1 items-center">
-        <h1 className="text-lg font-semibold flex-grow">Ejada Management System</h1>
+        <h1 className="text-lg font-semibold flex-grow">MindLuster Management System</h1>
   
         <ThemeToggle/>
       </div>

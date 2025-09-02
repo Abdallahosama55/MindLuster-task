@@ -10,7 +10,7 @@ export function TasksPage() {
           {" "}
           <h1 className="  text-2xl font-bold">Tasks Dashboard </h1>
           <p className="text-grey">
-            Grow Your Service Business with Ejada Cards{" "}
+            Grow Your Service Business with MindLuster Cards{" "}
           </p>
         </div>
       </div>
