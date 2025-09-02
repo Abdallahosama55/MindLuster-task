@@ -1,4 +1,4 @@
-# Ejada Task Management System
+# MindLuster  Task Management System
 
 
 ![Image](https://github.com/user-attachments/assets/74212c10-265d-4985-b4a3-e0809f4219da)
@@ -12,7 +12,7 @@
 ![Image](https://github.com/user-attachments/assets/ee99a6d1-b53c-4a9f-ab2e-8684ad8ed760)
 ## 🚀 Project Overview
 
-Ejada Task Management System is a simple and efficient task management application built using modern web technologies. It allows users to add and delete tasks, manage items in the To-Do list, switch between dark and light themes, and integrates seamlessly with a backend for persistent data storage.
+MindLuster  Task Management System is a simple and efficient task management application built using modern web technologies. It allows users to add and delete tasks, manage items in the To-Do list, switch between dark and light themes, and integrates seamlessly with a backend for persistent data storage.
 
 ## 🛠️ Technologies Used
 ## 🛠️ Technologies Used
@@ -41,7 +41,7 @@ To set up the project locally, follow these steps:
 
    ```sh
    git clone <repository-url>
-   cd ejada-task-management
+   cd MindLuster -task-management
    ```
 
 2. **Install dependencies**
